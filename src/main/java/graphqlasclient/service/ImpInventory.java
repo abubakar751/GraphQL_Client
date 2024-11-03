@@ -21,7 +21,19 @@ public class ImpInventory  implements  InventoryService{
                 "    stock\n" +
                 "  }\n" +
                 "}";
-       return   httpGraphQlClient.document(getAllProductQuery)
-                .retrieve("getAllProducts").toEntityList(Product.class).block();
+       return   httpGraphQlClient.document(getAllProductQuery).retrieve("getAllProducts").toEntityList(Product.class).block();
+    }
+
+    @Override
+    public List<Product> getAllProductByCate(String category) {
+        String getAllProductByCateQuery= String.format("query MyQuery {\n" +
+                "  getProductByCategory(category: \"%s\") {\n" +
+                "    category\n" +
+                "    id\n" +
+                "    name\n" +
+                "  }\n" +
+                "}",category);
+        return  httpGraphQlClient.document(getAllProductByCateQuery).retrieve("getProductByCategory").toEntityList(Product.class).block();
+
     }
 }
